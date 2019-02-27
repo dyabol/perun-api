@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { User } from '../../entity/User';
 import { RegisterInput } from './register/RegisterInput';
 
@@ -18,7 +18,6 @@ export class RegisterResolver {
     email,
     password
   }: RegisterInput): Promise<User> {
-    //TODO: salt precist si
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await User.create({
