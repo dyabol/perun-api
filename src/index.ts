@@ -10,6 +10,7 @@ import connectRedis from 'connect-redis';
 import { redisClient } from './redis';
 import { LoginResolver } from './modules/user/Login';
 import { MeResolver } from './modules/user/Me';
+import { ConfirmUserResolver } from './modules/user/ConfirmUser';
 
 export const SERVE_PORT: number = 4000;
 export const CLIENT_PORT: number = 3000;
@@ -21,7 +22,12 @@ const main = async () => {
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [RegisterResolver, LoginResolver, MeResolver],
+    resolvers: [
+      RegisterResolver,
+      LoginResolver,
+      MeResolver,
+      ConfirmUserResolver
+    ],
     authChecker: ({ context: { req } }) => {
       return !!req.session.userId;
     }
