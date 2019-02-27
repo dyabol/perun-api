@@ -6,7 +6,8 @@ import { Context } from '../../types/Context';
 export class MeResolver {
   @Mutation(() => User, { nullable: true })
   async me(@Ctx() ctx: Context): Promise<User | undefined> {
-    if (ctx.req.session!.userId) {
+    if (!ctx.req.session!.userId) {
+      return undefined;
     }
     return User.findOne(ctx.req.session!.userId);
   }
