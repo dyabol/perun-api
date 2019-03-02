@@ -4,9 +4,9 @@ import { createConnection } from 'typeorm';
 import Express from 'express';
 import session from 'express-session';
 import cors from 'cors';
-import { buildSchema } from 'type-graphql';
 import connectRedis from 'connect-redis';
 import { redisClient } from './redis';
+import { createSchema } from './utils/createSchema';
 
 export const SERVE_PORT: number = 4000;
 export const CLIENT_PORT: number = 3000;
@@ -17,12 +17,7 @@ export const CLIENT_URL: string = `http://localhost:${CLIENT_PORT}`;
 const main = async () => {
   await createConnection();
 
-  const schema = await buildSchema({
-    resolvers: [__dirname + '/modules/**/*.ts'],
-    authChecker: ({ context: { req } }) => {
-      return !!req.session.userId;
-    }
-  });
+  const schema = await createSchema();
 
   const apolloServer = new ApolloServer({
     schema,
@@ -31,14 +26,14 @@ const main = async () => {
 
   const app = Express();
 
+  const RedisStore = connectRedis(session);
+
   app.use(
     cors({
       credentials: true,
       origin: CLIENT_URL
     })
   );
-
-  const RedisStore = connectRedis(session);
 
   app.use(
     session({
@@ -57,11 +52,11 @@ const main = async () => {
     })
   );
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(SERVE_PORT, () => {
     console.log(`Server listen on ${SERVER_URL}/graphql`);
   });
 };
 
-main();
+main().catch(err => console.error(err));

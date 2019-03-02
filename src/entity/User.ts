@@ -20,7 +20,7 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Field()
+  @Field({ complexity: 3 })
   fullName(@Root() parent: User): string {
     return `${parent.firstName} ${parent.lastName}`;
   }
@@ -28,6 +28,6 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({ default: false })
+  @Column('bool', { default: false })
   confirmed: boolean;
 }

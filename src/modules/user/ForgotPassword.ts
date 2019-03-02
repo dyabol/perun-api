@@ -6,7 +6,7 @@ import { createChangePasswordUrl } from '../utils/createChangePasswordUrl';
 @Resolver()
 export class ForgotPasswordResolver {
   @Mutation(() => Boolean)
-  async forgorPassword(@Arg('email') email: string): Promise<boolean> {
+  async forgotPassword(@Arg('email') email: string): Promise<boolean> {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
