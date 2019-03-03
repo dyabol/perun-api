@@ -1,10 +1,10 @@
-import { Resolver, Mutation, Ctx } from 'type-graphql';
+import { Resolver, Ctx, Query } from 'type-graphql';
 import { User } from '../../entity/User';
 import { Context } from '../../types/Context';
 
 @Resolver()
 export class MeResolver {
-  @Mutation(() => User, { nullable: true })
+  @Query(() => User, { nullable: true })
   async me(@Ctx() ctx: Context): Promise<User | undefined> {
     if (!ctx.req.session!.userId) {
       return undefined;
