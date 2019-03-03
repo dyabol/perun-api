@@ -7,12 +7,7 @@ import cors from 'cors';
 import connectRedis from 'connect-redis';
 import { redisClient } from './redis';
 import { createSchema } from './utils/createSchema';
-
-export const SERVE_PORT: number = 4000;
-export const CLIENT_PORT: number = 3000;
-
-export const SERVER_URL: string = `http://localhost:${SERVE_PORT}`;
-export const CLIENT_URL: string = `http://localhost:${CLIENT_PORT}`;
+import { CLIENT_URL, SERVE_PORT, SERVER_URL } from './modules/constants/server';
 
 const main = async () => {
   await createConnection();
