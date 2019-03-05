@@ -1,7 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-import { ObjectType, Field, ID, Root } from 'type-graphql';
+import { Field, ID, ObjectType, Root } from 'type-graphql';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm';
+import { Post } from './Post';
 
-@ObjectType()
+@ObjectType({ description: 'Web user' })
 @Entity()
 export class User extends BaseEntity {
   @Field(() => ID)
@@ -20,7 +27,7 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Field({ complexity: 3 })
+  @Field({ description: 'Firstname and lastname together' })
   fullName(@Root() parent: User): string {
     return `${parent.firstName} ${parent.lastName}`;
   }
@@ -30,4 +37,8 @@ export class User extends BaseEntity {
 
   @Column('bool', { default: false })
   confirmed: boolean;
+
+  @Field(() => [Post])
+  @OneToMany(() => Post, post => post.user)
+  posts: Post[];
 }
