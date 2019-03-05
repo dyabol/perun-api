@@ -1,13 +1,13 @@
-import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
-import { createConnection } from 'typeorm';
+import connectRedis from 'connect-redis';
+import cors from 'cors';
 import Express from 'express';
 import session from 'express-session';
-import cors from 'cors';
-import connectRedis from 'connect-redis';
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import { CLIENT_URL, SERVER_URL, SERVE_PORT } from './constants/server';
 import { redisClient } from './redis';
 import { createSchema } from './utils/createSchema';
-import { CLIENT_URL, SERVE_PORT, SERVER_URL } from './modules/constants/server';
 
 const main = async () => {
   await createConnection();
