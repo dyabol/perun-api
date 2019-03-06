@@ -1,4 +1,4 @@
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType, Int } from 'type-graphql';
 import { Post } from '../../entity/Post';
 import { createResolver } from '../shared/CreateResolver';
 
@@ -8,7 +8,7 @@ class PostInput {
   title: string;
   @Field()
   content: string;
-  @Field()
+  @Field(() => Int)
   user: number;
 }
 
