@@ -7,6 +7,8 @@ class PostInput {
   @Field()
   title: string;
   @Field()
+  slug: string;
+  @Field()
   content: string;
   @Field(() => Int)
   user: number;

@@ -2,9 +2,11 @@ import { Field, ID, ObjectType, Root } from 'type-graphql';
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { Post } from './Post';
 
@@ -41,4 +43,10 @@ export class User extends BaseEntity {
   @Field(() => [Post])
   @OneToMany(() => Post, post => post.user)
   posts: Post[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  upadatedAt: Date;
 }

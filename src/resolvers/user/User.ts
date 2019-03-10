@@ -1,12 +1,39 @@
-import { Arg, FieldResolver, Query, Resolver, Root } from 'type-graphql';
+import {
+  Args,
+  ArgsType,
+  Field,
+  FieldResolver,
+  Int,
+  Query,
+  Resolver,
+  Root
+} from 'type-graphql';
 import { Post } from '../../entity/Post';
 import { User } from '../../entity/User';
+
+@ArgsType()
+class UserArgs {
+  @Field(_ => Int, { nullable: true })
+  id?: number;
+
+  @Field({ nullable: true })
+  email?: string;
+}
 
 @Resolver(() => User)
 export class UserQueryResolver {
   @Query(() => User)
-  async user(@Arg('id') id: number): Promise<User | undefined> {
-    const user = User.findOne(id);
+  async user(@Args() { id, email }: UserArgs): Promise<User | undefined> {
+    var user;
+    if (id) {
+      user = User.findOne(id);
+    } else if (email) {
+      user = User.findOne({
+        where: {
+          email
+        }
+      });
+    }
     if (!user) {
       return undefined;
     }

@@ -7,6 +7,8 @@ class PageInput {
   @Field()
   title: string;
   @Field()
+  slug: string;
+  @Field()
   content: string;
 }
 

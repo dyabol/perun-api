@@ -1,6 +1,7 @@
 import { buildSchema } from 'type-graphql';
 import { CreatePageResolver } from '../resolvers/page/CreatePage';
 import { CreatePostResolver } from '../resolvers/post/CreatePost';
+import { PostQueryResolver } from '../resolvers/post/Post';
 import { PostsQueryResolver } from '../resolvers/post/Posts';
 import { ProfilePictureResolver } from '../resolvers/user/AddProfilePicture';
 import { ChangePasswordResolver } from '../resolvers/user/ChangePassword';
@@ -25,6 +26,7 @@ export const createSchema = () =>
       CreatePostResolver,
       CreatePageResolver,
       PostsQueryResolver,
+      PostQueryResolver,
       UserQueryResolver,
       ProfilePictureResolver
     ],

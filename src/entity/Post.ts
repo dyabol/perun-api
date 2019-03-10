@@ -2,9 +2,11 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { User } from './User';
 
@@ -14,6 +16,10 @@ export class Post extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Field()
+  @Column({ unique: true })
+  slug: string;
 
   @Field()
   @Column()
@@ -26,4 +32,12 @@ export class Post extends BaseEntity {
   @Field()
   @ManyToOne(() => User, user => user.posts, { nullable: false })
   user: User;
+
+  @Field()
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @Field()
+  @UpdateDateColumn({ type: 'timestamp' })
+  upadatedAt: Date;
 }
