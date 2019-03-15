@@ -1,9 +1,9 @@
-import { Args, ArgsType, Field, Int, Query, Resolver } from 'type-graphql';
+import { Args, ArgsType, Field, ID, Query, Resolver } from 'type-graphql';
 import { Post } from '../../entity/Post';
 
 @ArgsType()
 class PostArgs {
-  @Field(_ => Int, { nullable: true })
+  @Field(() => ID, { nullable: true })
   id?: number;
 
   @Field({ nullable: true })

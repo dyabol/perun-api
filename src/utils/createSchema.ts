@@ -1,6 +1,7 @@
 import { buildSchema } from 'type-graphql';
 import { CreatePageResolver } from '../resolvers/page/CreatePage';
 import { CreatePostResolver } from '../resolvers/post/CreatePost';
+import { EditPostResolver } from '../resolvers/post/EditPost';
 import { PostQueryResolver } from '../resolvers/post/Post';
 import { PostsQueryResolver } from '../resolvers/post/Posts';
 import { ProfilePictureResolver } from '../resolvers/user/AddProfilePicture';
@@ -12,6 +13,7 @@ import { LogoutResolver } from '../resolvers/user/Logout';
 import { MeResolver } from '../resolvers/user/Me';
 import { RegisterResolver } from '../resolvers/user/Register';
 import { UserQueryResolver } from '../resolvers/user/User';
+import { CreateUserMetaResolver } from '../resolvers/userMeta/CreateMeta';
 
 export const createSchema = () =>
   buildSchema({
@@ -28,7 +30,9 @@ export const createSchema = () =>
       PostsQueryResolver,
       PostQueryResolver,
       UserQueryResolver,
-      ProfilePictureResolver
+      ProfilePictureResolver,
+      CreateUserMetaResolver,
+      EditPostResolver
     ],
     authChecker: ({ context: { req } }) => {
       return !!req.session.userId;

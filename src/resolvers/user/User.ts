@@ -3,21 +3,29 @@ import {
   ArgsType,
   Field,
   FieldResolver,
-  Int,
+  ID,
   Query,
   Resolver,
   Root
 } from 'type-graphql';
+import { In } from 'typeorm';
 import { Post } from '../../entity/Post';
 import { User } from '../../entity/User';
+import { UserMeta } from '../../entity/UserMeta';
 
 @ArgsType()
 class UserArgs {
-  @Field(_ => Int, { nullable: true })
+  @Field(() => ID, { nullable: true })
   id?: number;
 
   @Field({ nullable: true })
   email?: string;
+}
+
+@ArgsType()
+class MetaArgs {
+  @Field(() => [String], { nullable: true })
+  keys?: string[];
 }
 
 @Resolver(() => User)
@@ -51,5 +59,31 @@ export class UserQueryResolver {
       return null;
     }
     return posts;
+  }
+
+  @FieldResolver()
+  async meta(
+    @Root() user: User,
+    @Args() { keys }: MetaArgs
+  ): Promise<UserMeta[] | null> {
+    var meta;
+    if (keys && keys.length > 0) {
+      meta = await UserMeta.find({
+        where: {
+          userId: user.id,
+          key: In(keys)
+        }
+      });
+    } else {
+      meta = await UserMeta.find({
+        where: {
+          userId: user.id
+        }
+      });
+    }
+    if (!meta) {
+      return null;
+    }
+    return meta;
   }
 }

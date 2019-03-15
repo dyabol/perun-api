@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { User } from './User';
 
-@ObjectType()
+@ObjectType({ description: 'Posts' })
 @Entity()
 export class Post extends BaseEntity {
   @Field(() => ID)
@@ -29,7 +29,7 @@ export class Post extends BaseEntity {
   @Column('longtext')
   content: string;
 
-  @Field()
+  @Field(() => User)
   @ManyToOne(() => User, user => user.posts, { nullable: false })
   user: User;
 
@@ -39,5 +39,5 @@ export class Post extends BaseEntity {
 
   @Field()
   @UpdateDateColumn({ type: 'timestamp' })
-  upadatedAt: Date;
+  updatedAt: Date;
 }

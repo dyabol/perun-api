@@ -9,6 +9,7 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 import { Post } from './Post';
+import { UserMeta } from './UserMeta';
 
 @ObjectType({ description: 'Web user' })
 @Entity()
@@ -40,13 +41,17 @@ export class User extends BaseEntity {
   @Column('bool', { default: false })
   confirmed: boolean;
 
-  @Field(() => [Post])
-  @OneToMany(() => Post, post => post.user)
-  posts: Post[];
-
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  upadatedAt: Date;
+  updatedAt: Date;
+
+  @Field(() => [Post])
+  @OneToMany(() => Post, post => post.user)
+  posts: Post[];
+
+  @Field(() => [UserMeta])
+  @OneToMany(() => UserMeta, meta => meta.user)
+  meta: UserMeta[];
 }

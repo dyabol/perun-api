@@ -33,5 +33,5 @@ export class Page extends BaseEntity {
 
   @Field()
   @UpdateDateColumn({ type: 'timestamp' })
-  upadatedAt: Date;
+  updatedAt: Date;
 }
