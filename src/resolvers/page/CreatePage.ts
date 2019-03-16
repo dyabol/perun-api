@@ -1,6 +1,6 @@
 import { Field, InputType } from 'type-graphql';
 import { Page } from '../../entity/Page';
-import { createResolver } from '../shared/CreateResolver';
+import { createResolver } from '../utils/CreateResolver';
 
 @InputType()
 class PageInput {

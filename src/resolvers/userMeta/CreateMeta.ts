@@ -1,7 +1,7 @@
 import { Length } from 'class-validator';
 import { Field, ID, InputType } from 'type-graphql';
 import { UserMeta } from '../../entity/UserMeta';
-import { createResolver } from '../shared/CreateResolver';
+import { createResolver } from '../utils/CreateResolver';
 
 @InputType()
 class UserMetaInput {
