@@ -1,17 +1,25 @@
-import { Field, InputType, Int } from 'type-graphql';
+import { Arg, Ctx, Mutation } from 'type-graphql';
 import { Post } from '../../entity/Post';
-import { createResolver } from '../shared/CreateResolver';
+import { Context } from '../../types/Context';
+import { CreatePostInput } from './createPost/CreatePostInput';
 
-@InputType()
-class PostInput {
-  @Field()
-  title: string;
-  @Field()
-  slug: string;
-  @Field()
-  content: string;
-  @Field(() => Int)
-  user: number;
+export class CreatePostResolver {
+  @Mutation(() => Post)
+  async createPost(
+    @Arg('data')
+    { title, slug, content }: CreatePostInput,
+    @Ctx() ctx: Context
+  ): Promise<Post | null> {
+    if (!ctx.req.session!.userId) {
+      return null;
+    }
+    const post = await Post.create({
+      title,
+      slug,
+      content,
+      user: ctx.req.session!.userId
+    }).save();
+
+    return post;
+  }
 }
-
-export const CreatePostResolver = createResolver('Post', Post, PostInput, Post);

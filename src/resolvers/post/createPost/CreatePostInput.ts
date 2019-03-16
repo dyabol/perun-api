@@ -1,12 +1,9 @@
 import { Length } from 'class-validator';
-import { Field, ID, InputType } from 'type-graphql';
+import { Field, InputType } from 'type-graphql';
 import { IsSlugAlreadyExist } from './IsSlugAlreadyExist';
 
 @InputType()
-export class EditPostInput {
-  @Field(() => ID)
-  id: number;
-
+export class CreatePostInput {
   @Field()
   @Length(1, 255)
   title: string;
