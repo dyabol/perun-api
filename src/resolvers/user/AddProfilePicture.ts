@@ -1,13 +1,14 @@
-import { Resolver, Mutation, Arg } from "type-graphql";
-import { GraphQLUpload } from "graphql-upload";
-import { createWriteStream } from "fs";
-
-import { Upload } from "../../types/Upload";
+import { createWriteStream } from 'fs';
+import { GraphQLUpload } from 'graphql-upload';
+import { Arg, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+import { Upload } from '../../types/Upload';
+import { isAuth } from '../middleware/isAuth';
 
 @Resolver()
 export class ProfilePictureResolver {
+  @UseMiddleware(isAuth)
   @Mutation(() => Boolean)
-  async addProfilePicture(@Arg("picture", () => GraphQLUpload)
+  async addProfilePicture(@Arg('picture', () => GraphQLUpload)
   {
     createReadStream,
     filename
@@ -15,8 +16,8 @@ export class ProfilePictureResolver {
     return new Promise(async (resolve, reject) =>
       createReadStream()
         .pipe(createWriteStream(__dirname + `/../../../images/${filename}`))
-        .on("finish", () => resolve(true))
-        .on("error", () => reject(false))
+        .on('finish', () => resolve(true))
+        .on('error', () => reject(false))
     );
   }
 }

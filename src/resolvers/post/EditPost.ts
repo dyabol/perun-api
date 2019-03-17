@@ -1,9 +1,11 @@
-import { Arg, Mutation, Resolver } from 'type-graphql';
+import { Arg, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import { Post } from '../../entity/Post';
+import { isAuth } from '../middleware/isAuth';
 import { EditPostInput } from './editPost/EditPostInput';
 
 @Resolver()
 export class EditPostResolver {
+  @UseMiddleware(isAuth)
   @Mutation(() => Post)
   async editPost(@Arg('data')
   {

@@ -1,12 +1,23 @@
-import { FieldResolver, Query, Resolver, Root } from 'type-graphql';
+import { Arg, FieldResolver, Int, Query, Resolver, Root } from 'type-graphql';
 import { Post } from '../../entity/Post';
 import { User } from '../../entity/User';
 
 @Resolver(() => Post)
 export class PostsQueryResolver {
   @Query(() => [Post])
-  async posts(): Promise<Post[] | null> {
-    return Post.find();
+  async posts(
+    @Arg('take', _ => Int, { nullable: true }) take?: number,
+    @Arg('skip', _ => Int, { nullable: true }) skip?: number
+    //@Arg('order', type => Int ) order?: { [P in keyof Post]?: 'ASC' | 'DESC' | 1 | -1 }
+  ): Promise<Post[] | null> {
+    return Post.find({
+      order: {
+        //order: order || {
+        createdAt: 'ASC'
+      },
+      skip,
+      take
+    });
   }
 
   @FieldResolver()

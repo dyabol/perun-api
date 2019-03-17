@@ -1,9 +1,11 @@
-import { Arg, Ctx, Mutation } from 'type-graphql';
+import { Arg, Ctx, Mutation, UseMiddleware } from 'type-graphql';
 import { Post } from '../../entity/Post';
 import { Context } from '../../types/Context';
+import { isAuth } from '../middleware/isAuth';
 import { CreatePostInput } from './createPost/CreatePostInput';
 
 export class CreatePostResolver {
+  @UseMiddleware(isAuth)
   @Mutation(() => Post)
   async createPost(
     @Arg('data')

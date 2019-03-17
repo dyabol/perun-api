@@ -4,6 +4,7 @@ import { CreatePostResolver } from '../resolvers/post/CreatePost';
 import { EditPostResolver } from '../resolvers/post/EditPost';
 import { PostQueryResolver } from '../resolvers/post/Post';
 import { PostsQueryResolver } from '../resolvers/post/Posts';
+import { PostsCountQueryResolver } from '../resolvers/post/PostsCount';
 import { ProfilePictureResolver } from '../resolvers/user/AddProfilePicture';
 import { ChangePasswordResolver } from '../resolvers/user/ChangePassword';
 import { ConfirmUserResolver } from '../resolvers/user/ConfirmUser';
@@ -32,7 +33,8 @@ export const createSchema = () =>
       UserQueryResolver,
       ProfilePictureResolver,
       CreateUserMetaResolver,
-      EditPostResolver
+      EditPostResolver,
+      PostsCountQueryResolver
     ],
     authChecker: ({ context: { req } }) => {
       return !!req.session.userId;
