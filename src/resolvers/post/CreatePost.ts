@@ -12,9 +12,6 @@ export class CreatePostResolver {
     { title, slug, content }: CreatePostInput,
     @Ctx() ctx: Context
   ): Promise<Post | null> {
-    if (!ctx.req.session!.userId) {
-      return null;
-    }
     const post = await Post.create({
       title,
       slug,

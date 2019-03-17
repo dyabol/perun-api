@@ -11,9 +11,12 @@ export class PostsQueryResolver {
     //@Arg('order', type => Int ) order?: { [P in keyof Post]?: 'ASC' | 'DESC' | 1 | -1 }
   ): Promise<Post[] | null> {
     return Post.find({
+      where: {
+        deleted: false
+      },
       order: {
         //order: order || {
-        createdAt: 'ASC'
+        createdAt: 'DESC'
       },
       skip,
       take

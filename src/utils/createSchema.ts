@@ -1,6 +1,7 @@
 import { buildSchema } from 'type-graphql';
 import { CreatePageResolver } from '../resolvers/page/CreatePage';
 import { CreatePostResolver } from '../resolvers/post/CreatePost';
+import { DeletePostResolver } from '../resolvers/post/DeletePost';
 import { EditPostResolver } from '../resolvers/post/EditPost';
 import { PostQueryResolver } from '../resolvers/post/Post';
 import { PostsQueryResolver } from '../resolvers/post/Posts';
@@ -34,7 +35,8 @@ export const createSchema = () =>
       ProfilePictureResolver,
       CreateUserMetaResolver,
       EditPostResolver,
-      PostsCountQueryResolver
+      PostsCountQueryResolver,
+      DeletePostResolver
     ],
     authChecker: ({ context: { req } }) => {
       return !!req.session.userId;

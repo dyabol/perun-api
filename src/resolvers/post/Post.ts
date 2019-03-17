@@ -12,21 +12,27 @@ class PostArgs {
 
 @Resolver()
 export class PostQueryResolver {
-  @Query(() => Post)
-  async post(@Args() { id, slug }: PostArgs): Promise<Post | undefined> {
+  @Query(() => Post, { nullable: true })
+  async post(@Args() { id, slug }: PostArgs): Promise<Post | null> {
     var post;
     if (id) {
-      post = Post.findOne(id);
-    } else if (slug) {
-      post = Post.findOne({
+      post = await Post.findOne({
         where: {
+          deleted: false,
+          id
+        }
+      });
+    } else if (slug) {
+      post = await Post.findOne({
+        where: {
+          deleted: false,
           slug
         }
       });
     }
 
     if (!post) {
-      return undefined;
+      return null;
     }
     return post;
   }

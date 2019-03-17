@@ -29,6 +29,10 @@ export class Post extends BaseEntity {
   @Column('longtext')
   content: string;
 
+  @Field()
+  @Column({ default: false })
+  deleted: boolean;
+
   @Field(() => User)
   @ManyToOne(() => User, user => user.posts, { nullable: false })
   user: User;

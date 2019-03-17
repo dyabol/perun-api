@@ -30,20 +30,20 @@ class MetaArgs {
 
 @Resolver(() => User)
 export class UserQueryResolver {
-  @Query(() => User)
-  async user(@Args() { id, email }: UserArgs): Promise<User | undefined> {
+  @Query(() => User, { nullable: true })
+  async user(@Args() { id, email }: UserArgs): Promise<User | null> {
     var user;
     if (id) {
-      user = User.findOne(id);
+      user = await User.findOne(id);
     } else if (email) {
-      user = User.findOne({
+      user = await User.findOne({
         where: {
           email
         }
       });
     }
     if (!user) {
-      return undefined;
+      return null;
     }
     return user;
   }

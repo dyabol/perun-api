@@ -5,7 +5,11 @@ import { Post } from '../../entity/Post';
 export class PostsCountQueryResolver {
   @Query(() => Int)
   async postsCount(): Promise<number | null> {
-    const count = await Post.count();
+    const count = await Post.count({
+      where: {
+        deleted: false
+      }
+    });
     if (count) {
       return count;
     }
