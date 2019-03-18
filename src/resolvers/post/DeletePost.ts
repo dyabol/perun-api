@@ -1,5 +1,5 @@
 import { Arg, ID, Mutation, UseMiddleware } from 'type-graphql';
-import { Post } from '../../entity/Post';
+import { Post, PostType } from '../../entity/Post';
 import { isAuth } from '../middleware/isAuth';
 
 export class DeletePostResolver {
@@ -9,7 +9,17 @@ export class DeletePostResolver {
     @Arg('id', _ => ID)
     id: number
   ): Promise<boolean> {
-    await Post.update({ id }, { deleted: true });
+    await Post.update({ id, postType: PostType.POST }, { deleted: true });
+    return true;
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async deletePage(
+    @Arg('id', _ => ID)
+    id: number
+  ): Promise<boolean> {
+    await Post.update({ id, postType: PostType.PAGE }, { deleted: true });
     return true;
   }
 }

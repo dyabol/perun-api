@@ -1,5 +1,5 @@
 import { Args, ArgsType, Field, ID, Query, Resolver } from 'type-graphql';
-import { Post } from '../../entity/Post';
+import { Post, PostType } from '../../entity/Post';
 
 @ArgsType()
 class PostArgs {
@@ -19,6 +19,7 @@ export class PostQueryResolver {
       post = await Post.findOne({
         where: {
           deleted: false,
+          postType: PostType.POST,
           id
         }
       });
@@ -26,6 +27,34 @@ export class PostQueryResolver {
       post = await Post.findOne({
         where: {
           deleted: false,
+          postType: PostType.POST,
+          slug
+        }
+      });
+    }
+
+    if (!post) {
+      return null;
+    }
+    return post;
+  }
+
+  @Query(() => Post, { nullable: true })
+  async page(@Args() { id, slug }: PostArgs): Promise<Post | null> {
+    var post;
+    if (id) {
+      post = await Post.findOne({
+        where: {
+          deleted: false,
+          postType: PostType.PAGE,
+          id
+        }
+      });
+    } else if (slug) {
+      post = await Post.findOne({
+        where: {
+          deleted: false,
+          postType: PostType.PAGE,
           slug
         }
       });

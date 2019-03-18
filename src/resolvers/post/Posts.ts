@@ -1,5 +1,5 @@
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from 'type-graphql';
-import { Post } from '../../entity/Post';
+import { Post, PostType } from '../../entity/Post';
 import { User } from '../../entity/User';
 
 @Resolver(() => Post)
@@ -12,7 +12,28 @@ export class PostsQueryResolver {
   ): Promise<Post[] | null> {
     return Post.find({
       where: {
-        deleted: false
+        deleted: false,
+        postType: PostType.POST
+      },
+      order: {
+        //order: order || {
+        createdAt: 'DESC'
+      },
+      skip,
+      take
+    });
+  }
+
+  @Query(() => [Post])
+  async pages(
+    @Arg('take', _ => Int, { nullable: true }) take?: number,
+    @Arg('skip', _ => Int, { nullable: true }) skip?: number
+    //@Arg('order', type => Int ) order?: { [P in keyof Post]?: 'ASC' | 'DESC' | 1 | -1 }
+  ): Promise<Post[] | null> {
+    return Post.find({
+      where: {
+        deleted: false,
+        postType: PostType.PAGE
       },
       order: {
         //order: order || {
