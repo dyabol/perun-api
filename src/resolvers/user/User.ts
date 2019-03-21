@@ -88,16 +88,17 @@ export class UserQueryResolver {
   }
 
   @FieldResolver()
-  async avatar(@Root() user: User): Promise<string | null> {
+  async avatar(@Root() user: User): Promise<string> {
     var fs = require('fs');
+    var name = 'default';
     const ext = 'jpg';
     if (
       fs.existsSync(__dirname + `/../../../public/avatars/${user.id}.${ext}`)
     ) {
-      return `${process.env.DOMAIN}:${process.env.PORT}/static/avatars/${
-        user.id
-      }.${ext}`;
+      name = user.id.toString();
     }
-    return null;
+    return `${process.env.DOMAIN}:${
+      process.env.PORT
+    }/static/avatars/${name}.${ext}`;
   }
 }
