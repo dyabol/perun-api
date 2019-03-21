@@ -1,4 +1,4 @@
-import { Resolver, Ctx, Query } from 'type-graphql';
+import { Ctx, Query, Resolver } from 'type-graphql';
 import { User } from '../../entity/User';
 import { Context } from '../../types/Context';
 

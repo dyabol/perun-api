@@ -5,9 +5,10 @@ import Express from 'express';
 import session from 'express-session';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import { CLIENT_URL, SERVER_URL, SERVE_PORT } from './constants/server';
 import { redisClient } from './redis';
 import { createSchema } from './utils/createSchema';
+
+require('dotenv').config();
 
 const main = async () => {
   await createConnection();
@@ -26,7 +27,7 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: CLIENT_URL
+      origin: process.env.CLIENT_URL
     })
   );
 
@@ -47,10 +48,14 @@ const main = async () => {
     })
   );
 
+  app.use('/static', Express.static('public'));
+
   apolloServer.applyMiddleware({ app, cors: false });
 
-  app.listen(SERVE_PORT, () => {
-    console.log(`Server listen on ${SERVER_URL}/graphql`);
+  app.listen(process.env.PORT, () => {
+    console.log(
+      `Server listen on http://localhost:${process.env.PORT}/graphql`
+    );
   });
 };
 

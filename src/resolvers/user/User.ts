@@ -86,4 +86,18 @@ export class UserQueryResolver {
     }
     return meta;
   }
+
+  @FieldResolver()
+  async avatar(@Root() user: User): Promise<string | null> {
+    var fs = require('fs');
+    const ext = 'jpg';
+    if (
+      fs.existsSync(__dirname + `/../../../public/avatars/${user.id}.${ext}`)
+    ) {
+      return `${process.env.DOMAIN}:${process.env.PORT}/static/avatars/${
+        user.id
+      }.${ext}`;
+    }
+    return null;
+  }
 }

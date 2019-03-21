@@ -54,4 +54,7 @@ export class User extends BaseEntity {
   @Field(() => [UserMeta])
   @OneToMany(() => UserMeta, meta => meta.user)
   meta: UserMeta[];
+
+  @Field()
+  avatar: string;
 }
